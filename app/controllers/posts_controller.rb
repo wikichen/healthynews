@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_filter :authenticate_user!, :except => [:index, :show]
+
   # GET /posts
   # GET /posts.json
   def index
@@ -25,6 +27,7 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
+    @post.user = current_user
 
     respond_to do |format|
       format.html # new.html.erb
@@ -59,7 +62,10 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     respond_to do |format|
-      if @post.update_attributes(params[:post])
+      if @post.user != current_user
+        format.html { redirect_to @post, notice: "You can't edit this post." }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      elsif @post.update_attributes(params[:post])
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { head :no_content }
       else
@@ -75,9 +81,20 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @post.destroy
 
-    respond_to do |format|
-      format.html { redirect_to posts_url }
-      format.json { head :no_content }
+    if @post.user != current_user
+      flash[:notice] = "You can't delete this post."
+
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.json { head :no_content }
+      end
+    else
+      @post.destroy
+
+      respond_to do |format|
+        format.html { redirect_to posts_url }
+        format.json { head :no_content }
+      end
     end
   end
 end
