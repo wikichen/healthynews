@@ -1,26 +1,18 @@
 class PostsController < ApplicationController
+  include CommentEnabler::Commentable
+
   before_filter :authenticate_user!, :except => [:index, :show]
 
   # GET /posts
   # GET /posts.json
   def index
     @posts = Post.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @posts }
-    end
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
     @post = Post.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @post }
-    end
   end
 
   # GET /posts/new
@@ -28,11 +20,6 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
     @post.user ||= current_user
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @post }
-    end
   end
 
   # GET /posts/1/edit
