@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.13'
 gem 'devise', '~> 2.2.4'
 
+gem 'simple_form', '~>2.1.0'
+gem 'haml', '~> 4.0.3'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
