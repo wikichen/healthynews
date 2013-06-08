@@ -11,18 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130608204807) do
-
-  create_table "comments", :force => true do |t|
-    t.text     "content"
-    t.integer  "commentable_id"
-    t.string   "commentable_type"
-    t.string   "ancestry"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-  end
-
-  add_index "comments", ["ancestry"], :name => "index_comments_on_ancestry"
+ActiveRecord::Schema.define(:version => 20130606234319) do
 
   create_table "posts", :force => true do |t|
     t.string   "title"

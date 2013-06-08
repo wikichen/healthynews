@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-  include CommentEnabler::Commentable
 
   before_filter :authenticate_user!, :except => [:index, :show]
 

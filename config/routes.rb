@@ -2,9 +2,7 @@ Healthynews::Application.routes.draw do
   devise_for :users
 
   resources :pages
-  resources :posts do
-    resources :comments
-  end
+  resources :posts
 
 
   root :to => 'pages#index'
