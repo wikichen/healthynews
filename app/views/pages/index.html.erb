@@ -1,23 +1,19 @@
 <h1> This is the home page </h1>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Url</th>
-    <th>Username</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
 <% @posts.each do |post| %>
-  <tr>
-    <td><%= post.title %></td>
-    <td><%= post.url %></td>
-    <td><%= post.user.username %></td>
-    <td><%= link_to 'Show', post %></td>
-    <td><%= link_to 'Edit', edit_post_path(post) %></td>
-    <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+
+    <p><%= link_to '⬆', votes_path(:vote => { :post_id => post.id,
+                                                :vote => true }),
+                                     :method => :post %>
+        <%= link_to '⬇', votes_path(:vote => { :post_id => post.id,
+                                                        :vote => false }),
+                                             :method => :post %>
+        <%= link_to post.title, post.url %></p>
+    <p>(<%= post.url %>)</p>
+    <p><%= post.votes.where(:vote => true).count - post.votes.where(:vote => false).count%> votes</p>
+    <p>by <%= post.user.username %></p>
+    <p><%= link_to 'Show', post %> |
+       <%= link_to 'Edit', edit_post_path(post) %> |
+       <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></p>
 <% end %>
 </table>
