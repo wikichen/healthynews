@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
-gem 'devise', '~> 2.2.4'
 
-gem 'simple_form', '~> 2.1.0'
-gem 'haml', '~> 4.0.3'
+gem 'devise', '~> 2.2.4'
+gem 'pg', '~> 0.15.1'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.0'
@@ -19,13 +18,14 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'simple_form', '~> 2.1.0'
+gem 'haml', '~> 4.0.3'
 
 group :test do
   gem 'capybara', '~> 2.1.0'
 end
 
 group :production do
-  gem 'pg', '~> 0.15.1'
 end
 
 # To use ActiveModel has_secure_password
