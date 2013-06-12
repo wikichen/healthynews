@@ -1,3 +1,36 @@
 <td><%= @post.title %></td>
 <td><%= @post.url %></td>
 <td><%= @post.user.username %></td>
+
+<%= form_for(@comment) do |f| %>
+  <% if @comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+      <% @comment.errors.full_bodys.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :body %><br />
+    <%= f.text_area :body, :placeholder => 'Add a comment' %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :post_id, :value => @post.id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<h2>Comments</h2>
+<div>
+  <% @post.comments.each do |comment| %>
+    <p><%= comment.user.username %> <%= time_ago_in_words(comment.post.created_at) %> ago <%= link_to 'link', comment %></p>
+    <p><%= comment.body %></p>
+  <% end %>
+</div>

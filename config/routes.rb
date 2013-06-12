@@ -3,7 +3,8 @@ Healthynews::Application.routes.draw do
 
   resources :pages
   resources :posts
-
+  resources :comments
+  resources :votes
 
   root :to => 'pages#index'
 
