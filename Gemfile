@@ -7,6 +7,10 @@ gem 'pg', '~> 0.15.1'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.0'
+  gem 'guard-rspec', '~> 2.5.0'
+  gem 'spork-rails', '~> 3.2.0'
+  gem 'guard-spork', '~> 1.5.0'
+  gem 'childprocess', '~> 0.3.6'
 end
 
 # Gems used only for assets and not required
