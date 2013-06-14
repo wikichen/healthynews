@@ -1,0 +1,128 @@
+/* Healthy News */
+
+$base-color: #A60303;
+$background-color: #730202;
+$light-color: #F2E3D0;
+$dark-color: #0D0D0D;
+$secondary-color: #D9CEAD;
+$visited-link-color: #fd9a9a;
+$light-text-color: #aaa;
+
+/* apply a natural box layout model to all elements */
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "franklin-gothic-urw", sans-serif;
+}
+
+a {
+  color: $base-color;
+  text-decoration: none;
+}
+
+/* NAVIGATION */
+.main-header {
+  background-color: $base-color;
+  height: 60px;
+
+  .navbar {
+    width: 80%;
+    max-width: 980px;
+    margin: 0 auto;
+
+    .logo {
+      font-size: 24px;
+      color: #fff;
+      font-weight: 500;
+      margin-top: 15px;
+      display: inline-block;
+    }
+    .main-nav {
+      display: inline-block;
+      width: 80%;
+      margin-left: 10px;
+
+      ul {
+        list-style-type: none;
+
+
+        li {
+          display: inline-block;
+          margin: 0 10px;
+          font-size: 16px;
+          color: $light-color;
+
+          a {
+            color: $light-color;
+            &:hover {
+              color: #fff;
+            }
+          }
+        }
+      }
+
+      .nav-left {
+        float: left;
+      }
+
+      .nav-right {
+        float: right;
+        li {
+
+        }
+      }
+    }
+  }
+}
+
+/* CONTENT */
+
+.container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 63em;
+  *zoom: 1;
+}
+
+.post-container {
+
+
+  .post-title {
+    font-size: 20px;
+    font-weight: 500;
+
+    a {
+      color: $base-color;
+
+      &:visited {
+        color: $visited-link-color;
+      }
+    }
+  }
+
+  .post-metadata {
+    font-size: 14px;
+    color: $light-text-color;
+
+    a {
+      color: $dark-color;
+    }
+  }
+}
+
+
+
+
+.vote-buttons {
+  .upvote {
+
+  }
+  .downvote {
+
+  }
+}

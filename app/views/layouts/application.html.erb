@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title><%= full_title(yield(:title)) %></title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag    "fontawesome", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+      </script>
+  <![endif]-->
+  <script type="text/javascript" src="//use.typekit.net/xum5ztr.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 </head>
+
 <body>
+
+  <header class="main-header">
+    <div class="navbar">
+      <a class="logo" href="/">Healthy News</a>
+      <nav class="main-nav">
+        <ul>
+          <div class="nav-left">
+            <li><%= link_to 'Newest',   '#' %></li>
+            <li><%= link_to 'Submit', new_post_path %></li>
+          </div>
+          <div class="nav-right">
+            <% if user_signed_in? -%>
+              <li><%= current_user.username %></li>
+              <li><%= link_to 'Logout', destroy_user_session_path,
+                                          :method => :delete %></li>
+            <% else -%>
+              <li><%= link_to 'Login', new_user_session_path %></li>
+              or
+              <li><%= link_to 'Register', new_user_registration_path %></li>
+            <% end -%>
+          </div>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
 
-  <div id="login">
-    <% if user_signed_in? -%>
-      <ul>
-        <li>Hello <%= current_user.username %>!</li>
-        <li><%= link_to 'Submit link', new_post_path %></li>
-        <li><%= link_to 'Sign out', destroy_user_session_path, :method => :delete %></li>
-      </ul>
-    <% else -%>
-      <ul>
-        <li><%= link_to 'Sign up', new_user_registration_path %></li>
-        <li><%= link_to 'Sign in', new_user_session_path %></li>
-      </ul>
-    <% end -%>
-  </div>
-
-  <div id="content">
+  <div class="container">
     <%= yield %>
   </div>
 
