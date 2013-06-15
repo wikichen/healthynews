@@ -13,5 +13,9 @@ class User < ActiveRecord::Base
   attr_accessible :username, :email,
                   :password, :password_confirmation, :remember_me
 
-
+  validates :username, presence: true,
+                       length: { maximum: 20 },
+                       uniqueness: { case_sensitive: false }
+  validates :email,    presence: true,
+                       uniqueness: { case_sensitive: false }
 end
