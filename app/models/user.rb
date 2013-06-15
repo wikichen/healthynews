@@ -23,6 +23,13 @@ class User < ActiveRecord::Base
   validates :email,    presence: true,
                        uniqueness: { case_sensitive: false }
 
+  before_save do
+    username.downcase!
+    email.downcase!
+    #self.username = username.downcase
+    #self.email = email.downcase
+  end
+
   protected
 
    def self.find_for_database_authentication(warden_conditions)
