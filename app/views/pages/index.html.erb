@@ -1,28 +1,31 @@
-<h1>Healthy News</h1>
 
 <% @posts.each do |post| %>
 
   <% if current_user && current_user.votes.where(:post_id => post.id, :vote => true).present? %>
     <p>*
   <% else %>
-    <%= link_to '⬆', votes_path(:vote => { :post_id => post.id,
-                                            :vote => true }),
-                                            :method => :post %>
+    <%= link_to raw("<i class=\"icon-caret-up\"></i>"),
+                votes_path(:vote => { :post_id => post.id,
+                                      :vote => true }),
+                           :method => :post %>
   <% end %>
   <% if current_user && current_user.votes.where(:post_id => post.id, :vote => false).present? %>
     *
   <% else %>
-    <%= link_to '⬇', votes_path(:vote => { :post_id => post.id,
-                                            :vote => false }),
-                                            :method => :post %>
+    <%= link_to raw("<i class=\"icon-caret-down\"></i>"),
+                votes_path(:vote => { :post_id => post.id,
+                                      :vote => false }),
+                           :method => :post %>
   <% end %>
 
-  <%= link_to post.title, post.url %></p>
-  <p>(<%= post.url %>)</p>
-  <p><%= post.votes.where(:vote => true).count - post.votes.where(:vote => false).count%> votes</p>
-  <p>by <%= post.user.username %></p>
-  <p><%= link_to 'Show', post %> |
-    <%= link_to 'Edit', edit_post_path(post) %> |
-    <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+  <div class="post-container">
+    <div class="post-title"><%= link_to post.title, post.url %></div>
+
+    <div class="post-metadata">
+      <p>
+        <%= post.votes.where(:vote => true).count - post.votes.where(:vote => false).count%> points by <%= post.user.username %> <%= time_ago_in_words(post.created_at) %> ago | <%= link_to 'discuss', post %>
+      </p>
+    </div>
+  </div>
+
 <% end %>
-</table>

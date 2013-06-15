@@ -1,13 +1,15 @@
 Healthynews::Application.routes.draw do
-  devise_for :users
-
   resources :posts
   resources :comments
   resources :votes
 
-  root :to => 'pages#index'
-  get 'pages/index'
-  get 'pages/about'
+  devise_for :users do
+    get '/login' => 'devise/sessions#new'
+    get '/register' => 'devise/registrations#new'
+  end
+
+  root to: 'pages#index'
+  match '/about',    to: 'pages#about',              via: 'get'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

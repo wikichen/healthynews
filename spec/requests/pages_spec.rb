@@ -4,33 +4,20 @@ describe "Pages" do
 
   let(:base_title) { 'Healthy News' }
 
+  subject { page }
+
   describe "Index page" do
+    before { visit root_path }
 
-    it "should have the right title" do
-      visit pages_index_path
-      expect(page).to have_title("#{base_title}")
-    end
-
-    it "should have the content 'Healthy News'" do
-      visit pages_index_path
-      page.should have_content('Healthy News')
-    end
-
-    it "should not have a custom page title" do
-      visit pages_index_path
-      expect(page).not_to have_title('- Home')
-    end
+    it { should have_title(full_title('')) }
+    it { should have_content('Healthy News') }
+    it { should_not have_title('- Home') }
   end
 
   describe "About page" do
-    it "should have the right title" do
-      visit pages_about_path
-      expect(page).to have_title("#{base_title} - About")
-    end
+    before { visit about_path }
 
-    it "should have the content 'About'" do
-      visit pages_about_path
-      page.should have_content('About')
-    end
+    it { should have_title(full_title('About')) }
+    it { should have_content('About') }
   end
 end
