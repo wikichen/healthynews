@@ -5,9 +5,8 @@ Healthynews::Application.routes.draw do
   resources :comments
   resources :votes
 
-  root :to => 'pages#index'
-  get 'pages/index'
-  get 'pages/about'
+  root to: 'pages#index'
+  match '/about', to: 'pages#about', via: 'get'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
