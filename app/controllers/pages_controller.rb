@@ -7,4 +7,8 @@ class PagesController < ApplicationController
       format.json { render json: @posts }
     end
   end
+
+  def about
+  end
+
 end

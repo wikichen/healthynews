@@ -1,34 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Healthy News</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
+
+<%= render 'layouts/head' %>
+
 <body>
+  <%= render 'layouts/header' %>
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
 
-<div id="login">
-  <% if user_signed_in? -%>
-    <ul>
-      <li>Hello <%= current_user.username %>!</li>
-      <li><%= link_to 'Submit link', new_post_path %></li>
-      <li><%= link_to 'Sign out', destroy_user_session_path, :method => :delete %></li>
-    </ul>
-  <% else -%>
-    <ul>
-      <li><%= link_to 'Sign up', new_user_registration_path %></li>
-      <li><%= link_to 'Sign in', new_user_session_path %></li>
-    </ul>
-  <% end -%>
-</div>
+  <div class="container">
+    <%= yield %>
+    <%= render 'layouts/footer' %>
+  </div>
 
-<div id="content">
-  <%= yield %>
-</div>
+  <%= render 'layouts/javascripts' %>
 
 </body>
 </html>
