@@ -3,7 +3,9 @@ Healthynews::Application.routes.draw do
   resources :comments
   resources :votes
 
-  devise_for :users do
+  devise_for :users
+
+  devise_scope :user do
     get '/login' => 'devise/sessions#new'
     get '/register' => 'devise/registrations#new'
   end
