@@ -23,7 +23,11 @@
 
     <div class="post-metadata">
       <p>
-        <%= post.votes.where(:vote => true).count - post.votes.where(:vote => false).count%> points by <%= post.user.username %> <%= time_ago_in_words(post.created_at) %> ago | <%= link_to 'discuss', post %>
+        <%= post.votes.where(:vote => true).count - post.votes.where(:vote => false).count%> points by <%= post.user.username %> <%= time_ago_in_words(post.created_at) %> ago | <% if post.comments.count == 0 %>
+                <%= link_to 'discuss', post %>
+              <% else %>
+                <%= link_to "#{post.comments.count} comments", post %>
+              <% end %>
       </p>
     </div>
   </div>
