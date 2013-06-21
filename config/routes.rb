@@ -7,8 +7,9 @@ Healthynews::Application.routes.draw do
   resources :votes
 
   devise_scope :user do
-    get '/login' => 'devise/sessions#new'
+    get '/login'    => 'devise/sessions#new'
     get '/register' => 'devise/registrations#new'
+    delete '/logout'   => 'devise/sessions#destroy'
   end
 
   root to: 'pages#index'
