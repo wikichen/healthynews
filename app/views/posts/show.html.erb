@@ -38,7 +38,7 @@
 <h2>Comments</h2>
 <div>
   <% @post.comments.each do |comment| %>
-    <p><%= comment.user.username %> <%= time_ago_in_words(comment.post.created_at) %> ago <%= link_to 'link', comment %></p>
+    <p><%= comment.user.username %> <%= time_ago_in_words(comment.created_at) %> ago <%= link_to 'link', comment %></p>
     <p><%= comment.body %></p>
   <% end %>
 
