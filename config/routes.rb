@@ -1,7 +1,7 @@
 Healthynews::Application.routes.draw do
 
   devise_for :users
-  resources :users, :only => [:index, :show]
+  resources :users, :only => [:show]
   resources :posts
   resources :comments
   resources :votes
@@ -13,7 +13,7 @@ Healthynews::Application.routes.draw do
   end
 
   root to: 'pages#index'
-  match '/about',    to: 'pages#about',              via: 'get'
+  get '/about' => 'pages#about'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
