@@ -1,2 +1,10 @@
 <% provide(:title, @user.username) %>
-<h1><%= @user.username %></h1>
+
+<div class="user-profile">
+  <div class="user-username">
+    <%= @user.username %>
+  </div>
+  <div>_ karma</div>
+  <div><%= pluralize(@user.posts.count, "post") %></div>
+  <div><%= pluralize(@user.comments.count, "comments") %></div>
+</div>

@@ -52,4 +52,41 @@ describe "User pages" do
       end
     end
   end
+
+  describe 'edit' do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      login user
+      visit edit_user_registration_path
+    end
+
+    describe 'page' do
+      it { should have_content("Update profile") }
+      it { should have_title(user.username) }
+    end
+
+    describe 'with invalid information' do
+      before { click_button 'Save changes' }
+      it { should have_content('error') }
+    end
+
+    describe 'with valid information' do
+      let(:new_username)  { 'NewName' }
+      let(:new_email) { 'new@example.com' }
+      before do
+        fill_in 'Username',              with: new_username
+        fill_in 'Email',                 with: new_email
+        fill_in 'Password',              with: user.password
+        fill_in 'Password confirmation', with: user.password
+        fill_in 'Current password'     , with: user.password
+        click_button 'Save changes'
+      end
+
+      #it { should have_title(new_username) }
+      #it { should have_selector('div.alert') }
+      it { should have_link('Logout', href: logout_path) }
+      specify { expect(user.reload.username).to eq new_username.downcase }
+      specify { expect(user.reload.email).to eq new_email }
+    end
+  end
 end
