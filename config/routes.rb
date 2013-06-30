@@ -12,7 +12,7 @@ Healthynews::Application.routes.draw do
     delete '/logout'   => 'devise/sessions#destroy'
   end
 
-  root to: 'pages#index'
+  root to: 'posts#index'
   get '/about' => 'pages#about'
 
   # The priority is based upon order of creation:

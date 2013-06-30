@@ -5,6 +5,7 @@ gem 'rails', '3.2.13'
 gem 'devise', '~> 2.2.4'
 gem 'pg', '~> 0.15.1'
 gem 'faker', '~> 1.1.2'
+gem 'will_paginate', '~> 3.0.4'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.0'
