@@ -26,7 +26,7 @@
         <%= post.votes.where(:vote => true).count - post.votes.where(:vote => false).count%> points by <%= post.user.username %> <%= time_ago_in_words(post.created_at) %> ago | <% if post.comments.count == 0 %>
                 <%= link_to 'discuss', post %>
               <% else %>
-                <%= link_to "#{post.comments.count} comments", post %>
+                <%= link_to pluralize(post.comments.count, 'comment'), post %>
               <% end %>
       </p>
     </div>
