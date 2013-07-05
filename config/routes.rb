@@ -14,6 +14,9 @@ Healthynews::Application.routes.draw do
 
   root to: 'pages#index'
   get '/about' => 'pages#about'
+  get '/page/:page' => 'pages#index'
+  get '/newest(.format)' => 'home#newest'
+  get '/newest/page/:page' => 'home#newest'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
