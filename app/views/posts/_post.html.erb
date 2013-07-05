@@ -3,16 +3,16 @@
 <% else %>
   <%= link_to raw("<i class=\"icon-caret-up\"></i>"),
               votes_path(:vote => { :post_id => post.id,
-                                    :vote => true }),
-                         :method => :post %>
+                                    :vote => 1 }),
+                                    :method => :post %>
 <% end %>
 <% if current_user && current_user.votes.where(:post_id => post.id, :vote => false).present? %>
   *
 <% else %>
   <%= link_to raw("<i class=\"icon-caret-down\"></i>"),
               votes_path(:vote => { :post_id => post.id,
-                                    :vote => false }),
-                         :method => :post %>
+                                    :vote => 0 }),
+                                    :method => :post %>
 <% end %>
 
 <div class="post-container">
@@ -20,11 +20,14 @@
 
   <div class="post-metadata">
     <p>
-      <%= post.votes.where(:vote => true).count - post.votes.where(:vote => false).count%> points by <%= post.user.username %> <%= time_ago_in_words(post.created_at) %> ago | <% if post.comments.count == 0 %>
+      <%= post.score %> points by <%= post.user.username %> <%= time_ago_in_words(post.created_at) %> ago | <% if post.comments.count == 0 %>
               <%= link_to 'discuss', post %>
             <% else %>
               <%= link_to "#{post.comments.count} comments", post %>
             <% end %>
+      <%= " (upvotes: #{post.upvotes} |
+                        downvotes: #{post.downvotes} |
+                        hotness: #{post.hotness})" if Rails.env.development? %></span>
     </p>
   </div>
 </div>

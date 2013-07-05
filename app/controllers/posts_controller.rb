@@ -35,14 +35,14 @@ class PostsController < ApplicationController
     @post = Post.new(params[:post])
     @post.user ||= current_user
 
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render json: @post, status: :created, location: @post }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    if @post.save
+      Vote.vote_thusly_on_post_or_comment_for_user_because(1, @post.id, nil, current_user.id, nil)
+
+      flash[:success] = "Your post has been submitted successfully."
+
+      redirect_to @post
+    else
+      return render action: "new"
     end
   end
 
@@ -87,4 +87,16 @@ class PostsController < ApplicationController
       end
     end
   end
+
+  def upvote
+    if !(post = Post.find_by_short_id(params[:post_id]))
+      return render :text => "Can't find story", :status => 400
+    end
+
+    Vote.vote_thusly_on_post_or_comment_for_user_because(1, post.id,
+      nil, current_user.id, nil)
+
+    render :text => "ok"
+  end
+
 end
