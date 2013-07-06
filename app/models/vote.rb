@@ -4,8 +4,6 @@ class Vote < ActiveRecord::Base
 
   attr_accessible :post_id, :user_id, :vote
 
-  validates :user_id, :uniqueness => { :scope => :post_id }
-
   def self.vote_thusly_on_post_or_comment_for_user_because(vote, post_id,
     comment_id, user_id, reason, update_counters = true)
 
@@ -57,12 +55,16 @@ class Vote < ActiveRecord::Base
       if update_counters && (downvote != 0 || upvote != 0)
         # vote for comment
         if v.comment_id
-          # increase karma for user
+          c = Comment.find(v.comment_id)
+
+          # TODO: increase karma for user
+          c.give_upvote_or_downvote_and_recalculate_confidence!(upvote, downvote)
 
         # vote for post
         else
           p = Post.find(v.post_id)
-          # increase karma for user
+
+          # TODO: increase karma for user
 
           p.give_upvote_or_downvote_and_recalculate_hotness!(upvote, downvote)
         end

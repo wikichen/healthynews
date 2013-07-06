@@ -11,17 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130702023716) do
+ActiveRecord::Schema.define(:version => 20130705200009) do
 
   create_table "comments", :force => true do |t|
-    t.text     "body"
+    t.text     "comment"
     t.integer  "user_id"
     t.integer  "post_id"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-    t.integer  "upvotes",    :default => 0, :null => false
-    t.integer  "downvotes",  :default => 0, :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.integer  "upvotes",                         :default => 0,   :null => false
+    t.integer  "downvotes",                       :default => 0,   :null => false
+    t.string   "short_id",          :limit => 10, :default => "",  :null => false
+    t.integer  "parent_comment_id"
+    t.integer  "thread_id"
+    t.decimal  "confidence",                      :default => 0.0, :null => false
   end
+
+  add_index "comments", ["confidence"], :name => "index_comments_on_confidence"
+  add_index "comments", ["post_id", "short_id"], :name => "index_comments_on_post_id_and_short_id"
+  add_index "comments", ["short_id"], :name => "index_comments_on_short_id", :unique => true
+  add_index "comments", ["thread_id"], :name => "index_comments_on_thread_id"
 
   create_table "posts", :force => true do |t|
     t.string   "title",                                                   :default => "",  :null => false
