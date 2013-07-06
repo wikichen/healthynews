@@ -89,6 +89,10 @@ a {
   *zoom: 1;
 }
 
+.post {
+  list-style: none;
+}
+
 .post-container {
   margin-bottom: 0.8em;
 
@@ -99,6 +103,7 @@ a {
   .post-title {
     font-size: 20px;
     font-weight: 500;
+    padding-left: 2em;
 
     a {
       color: $base-color;
@@ -112,7 +117,7 @@ a {
   .post-metadata {
     font-size: 14px;
     color: $light-text-color;
-
+    padding-left: 3em;
     a {
       color: $dark-color;
     }
@@ -145,6 +150,8 @@ input, textarea, select, .uneditable-input {
 div.voters {
   float: left;
   width: 40px;
+  clear: both;
+  padding-left: 7px;
 }
 
 div.voters a.upvoter,
@@ -154,7 +161,6 @@ div.voters a.downvoter {
   border-width: 6px;
   text-decoration: none;
   width: 0px;
-  height: 0;
   margin-bottom: 0px;
   margin-left: 14px;
   padding: 0;
