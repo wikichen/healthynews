@@ -1,0 +1,20 @@
+<%= form_for(@user, :url => registration_path(@user), :html => { :method => :put }) do |f| %>
+  <%= render 'shared/error_messages' %>
+
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+
+  <%= f.label :password_confirmation, "Confirm Password" %>
+  <%= f.password_field :password_confirmation %>
+
+  <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+  <%= f.password_field :current_password %>
+
+  <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+<% end %>

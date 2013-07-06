@@ -1,17 +1,49 @@
 Healthynews::Application.routes.draw do
+
+  devise_for :users
+  resources :users, :only => [:show]
   resources :posts
   resources :comments
   resources :votes
 
-  devise_for :users
-
+  # AUTHENTICATION
   devise_scope :user do
-    get '/login' => 'devise/sessions#new'
+    get '/login'    => 'devise/sessions#new'
     get '/register' => 'devise/registrations#new'
+    delete '/logout'   => 'devise/sessions#destroy'
   end
 
+  # PAGES
   root to: 'pages#index'
-  match '/about',    to: 'pages#about',              via: 'get'
+  get '/about' => 'pages#about'
+  get '/page/:page' => 'pages#index'
+  get '/newest(.format)' => 'home#newest'
+  get '/newest/page/:page' => 'home#newest'
+
+  # POSTS
+  resources :posts do
+    post 'upvote'
+    post 'downvote'
+    post 'unvote'
+  end
+
+  get '/p/:id/(:title)' => 'posts#show'
+  get "/p/:id/:title/comments/:comment_short_id" => "posts#show_comment"
+
+  # COMMENTS
+  resources :comments do
+    post 'upvote'
+    post 'downvote'
+    post 'unvote'
+  end
+
+  post '/comments/post_to/:post_id' => 'comments#create'
+
+  # USERS
+  get '/u/:id' => 'users#show'
+
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

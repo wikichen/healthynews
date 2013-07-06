@@ -1,0 +1,9 @@
+{
+	"folders":
+	[
+		{
+			"path": "/Users/Jonathan/Projects/healthynews",
+      "folder_exclude_patterns": ["tmp"]
+		}
+	]
+}

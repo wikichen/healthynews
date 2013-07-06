@@ -1,0 +1,38 @@
+<div class="post-container">
+  <li id="post_<%= post.short_id %>" data-shortid="<%= post.short_id %>"
+      class="post <%= post.vote == 1 ? "upvoted" : (post.vote == -1 ?
+        "downvoted" : "") %>">
+  <div class="voters">
+    <% if current_user %>
+      <a class="upvoter"></a>
+    <% else %>
+      <%= link_to "", login_url, :class => "upvoter" %>
+    <% end %>
+    <% if current_user %>
+      <a class="downvoter"></a>
+    <% else %>
+      <%= link_to "", login_url, :class => "downvoter" %>
+    <% end %>
+  </div>
+
+  <div class="post-title">
+    <%= link_to post.title, post.url %>
+  </div>
+
+  <div class="post-metadata">
+    <p>
+      <!-- TODO: fix this stupid hack -->
+      <span style="display: none" class="score"><%= post.score %></span>
+
+      <%= pluralize(post.score, "point") %> by <%= post.user.username %> <%= time_ago_in_words(post.created_at) %> ago | <% if post.comments.count == 0 %>
+              <%= link_to 'discuss', post.comments_url %>
+            <% else %>
+              <%= link_to pluralize(post.comments.count, "comments").to_s, post.comments_url %>
+            <% end %>
+      <%= " (upvotes: #{post.upvotes} |
+                        downvotes: #{post.downvotes} |
+                        hotness: #{post.hotness})" if Rails.env.development? %></span>
+    </p>
+  </div>
+</li>
+</div>

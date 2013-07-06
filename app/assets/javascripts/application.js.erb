@@ -1,0 +1,145 @@
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+// or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// the compiled file.
+//
+// WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
+// GO AFTER THE REQUIRES BELOW.
+//
+//= require jquery
+//= require jquery_ujs
+//= require_tree .
+
+var _HealthyNews = Class.extend({
+  curUser: null,
+
+  upvote: function(voterEl) {
+    HealthyNews.vote("post", voterEl, 1);
+  },
+
+  downvote: function(voterEl) {
+    HealthyNews._showDownvoteWhyAt("post", voterEl, function(k) {
+      HealthyNews.vote("post", voterEl, -1, k); });
+  },
+
+  upvoteComment: function(voterEl) {
+    HealthyNews.vote("comment", voterEl, 1);
+  },
+
+  downvoteComment: function(voterEl) {
+    HealthyNews.vote("comment", voterEl, -1, k);
+  },
+
+  vote: function(thingType, voterEl, point, reason) {
+    if (!HealthyNews.curUser)
+      return HealthyNews.bounceToLogin();
+
+    var li = $(voterEl).parents("li").first();
+    var scoreDiv = li.find("span.score").get(0);
+    var score = parseInt(scoreDiv.innerHTML);
+    var action = "";
+
+    if (li.hasClass("upvoted") && point > 0) {
+      /* already upvoted, neutralize */
+      li.removeClass("upvoted");
+      score--;
+      action = "unvote";
+    }
+    else if (li.hasClass("downvoted") && point < 0) {
+      /* already downvoted, neutralize */
+      li.removeClass("downvoted");
+      score++;
+      action = "unvote";
+    }
+    else if (point > 0) {
+      if (li.hasClass("downvoted"))
+        /* flip flop */
+        score++;
+
+      li.removeClass("downvoted").addClass("upvoted");
+      score++;
+      action = "upvote";
+    }
+    else if (point < 0) {
+      if (li.hasClass("upvoted"))
+        /* flip flop */
+        score--;
+
+      li.removeClass("upvoted").addClass("downvoted");
+      score--;
+      action = "downvote";
+    }
+
+    scoreDiv.innerHTML = score;
+
+    $.post("/" + (thingType == "post" ? "posts" : thingType + "s") + "/" +
+      $(voterEl).parents("li").first().attr("data-shortid") + "/" +
+      action);
+  },
+
+  postComment: function(form) {
+    $(form).parent().load($(form).attr("action"), $(form).serializeArray());
+  },
+
+  bounceToLogin: function() {
+    document.location = "/login?return=" +
+      encodeURIComponent(document.location);
+  }
+
+});
+
+var HealthyNews = new _HealthyNews();
+
+$(document).ready(function() {
+  $("li.comment a.downvoter").click(function() {
+    HealthyNews.downvoteComment(this);
+    return false;
+  });
+  $("li.comment a.upvoter").click(function() {
+    HealthyNews.upvoteComment(this);
+    return false;
+  });
+
+  $("li.post a.downvoter").click(function() {
+    HealthyNews.downvote(this);
+    return false;
+  });
+  $("li.post a.upvoter").click(function() {
+    HealthyNews.upvote(this);
+    return false;
+  });
+
+  $(document).on('click', 'button.comment-post', function() {
+    HealthyNews.postComment($(this).parents("form").first());
+  });
+
+  $(document).on('click', 'a.comment_replier', function() {
+    if (!HealthyNews.curUser) {
+      HealthyNews.bounceToLogin();
+      return false;
+    }
+
+    var box = $(this).parents("li.comment").first().find("div.comment_reply").
+      first();
+
+    box.html($("#comment_form").clone());
+    box.find("ul").remove();
+
+    box.find("button.comment-preview").after("&nbsp;\n&nbsp;<button class=\"comment-cancel\" name=\"button\" type=\"button\">Cancel</button>");
+
+    box.find("textarea").focus();
+
+    var el = $("<input type=\"hidden\" " +
+      "name=\"parent_comment_short_id\" value=\"" +
+      $(this).parents("li.comment").first().attr("data-shortid") + "\">");
+
+    box.find("form").append(el);
+
+    return false;
+  });
+
+});

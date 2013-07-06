@@ -1,31 +1,17 @@
+<ol class="stories list">
+  <%= render partial: "posts/post", collection: @posts, :as => :post %>
+</ol>
 
-<% @posts.each do |post| %>
-
-  <% if current_user && current_user.votes.where(:post_id => post.id, :vote => true).present? %>
-    <p>*
-  <% else %>
-    <%= link_to raw("<i class=\"icon-caret-up\"></i>"),
-                votes_path(:vote => { :post_id => post.id,
-                                      :vote => true }),
-                           :method => :post %>
-  <% end %>
-  <% if current_user && current_user.votes.where(:post_id => post.id, :vote => false).present? %>
-    *
-  <% else %>
-    <%= link_to raw("<i class=\"icon-caret-down\"></i>"),
-                votes_path(:vote => { :post_id => post.id,
-                                      :vote => false }),
-                           :method => :post %>
+<div class="show-more-link">
+  <% if @page && @page > 1 %>
+    <a href="<%= @newest ? "/newest" : "" %>
+             <%= @page == 2 ? "/" : "/page/#{@page - 1}" %>">prev</a>
   <% end %>
 
-  <div class="post-container">
-    <div class="post-title"><%= link_to post.title, post.url %></div>
-
-    <div class="post-metadata">
-      <p>
-        <%= post.votes.where(:vote => true).count - post.votes.where(:vote => false).count%> points by <%= post.user.username %> <%= time_ago_in_words(post.created_at) %> ago | <%= link_to 'discuss', post %>
-      </p>
-    </div>
-  </div>
-
-<% end %>
+  <% if @show_more %>
+    <% if @page && @page > 1 %>
+      |
+    <% end %>
+    <a href="<%= @newest ? "/newest" : "" %>/page/<%= @page + 1 %>">next</a>
+  <% end %>
+</div>

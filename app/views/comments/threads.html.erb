@@ -1,0 +1,23 @@
+<% current_post = nil %>
+<% indent_level = -1 %>
+<% @comments.each_with_index do |comment, x| %>
+  <% if !current_post || comment.post_id != current_post.id %>
+    <% current_post = Post.find(comment.post_id) %>
+  <% end %>
+
+  <% if comment.indent_level > indent_level %>
+    <ul class="comments comments<%= comment.indent_level %>">
+  <% elsif comment.indent_level < indent_level %>
+    <% (indent_level - comment.indent_level).times do %>
+      </ul>
+    <% end %>
+  <% end %>
+
+  <%= render :partial => "comment", :locals = { :post => current_post,
+    :comment => comment, :show_post => (comment.indent_level = 1) } %>
+
+  <% indent_level = comment.indent_level %>
+<% end %>
+<% indent_level.times do %>
+  </ul>
+<% end %>

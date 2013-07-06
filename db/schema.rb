@@ -11,24 +11,40 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130615071354) do
+ActiveRecord::Schema.define(:version => 20130705200009) do
 
   create_table "comments", :force => true do |t|
-    t.text     "body"
+    t.text     "comment"
     t.integer  "user_id"
     t.integer  "post_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.integer  "upvotes",                         :default => 0,   :null => false
+    t.integer  "downvotes",                       :default => 0,   :null => false
+    t.string   "short_id",          :limit => 10, :default => "",  :null => false
+    t.integer  "parent_comment_id"
+    t.integer  "thread_id"
+    t.decimal  "confidence",                      :default => 0.0, :null => false
   end
+
+  add_index "comments", ["confidence"], :name => "index_comments_on_confidence"
+  add_index "comments", ["post_id", "short_id"], :name => "index_comments_on_post_id_and_short_id"
+  add_index "comments", ["short_id"], :name => "index_comments_on_short_id", :unique => true
+  add_index "comments", ["thread_id"], :name => "index_comments_on_thread_id"
 
   create_table "posts", :force => true do |t|
-    t.string   "title"
-    t.string   "url"
+    t.string   "title",                                                   :default => "",  :null => false
+    t.string   "url",                                                     :default => ""
+    t.string   "short_id",   :limit => 6,                                 :default => "",  :null => false
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                                               :null => false
+    t.datetime "updated_at",                                                               :null => false
+    t.decimal  "hotness",                 :precision => 20, :scale => 10, :default => 0.0, :null => false
+    t.integer  "upvotes",                                                 :default => 0,   :null => false
+    t.integer  "downvotes",                                               :default => 0,   :null => false
   end
 
+  add_index "posts", ["hotness"], :name => "index_posts_on_hotness"
   add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
 
   create_table "users", :force => true do |t|
@@ -52,11 +68,12 @@ ActiveRecord::Schema.define(:version => 20130615071354) do
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
   create_table "votes", :force => true do |t|
-    t.boolean  "vote"
-    t.integer  "user_id"
-    t.integer  "post_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "vote",       :limit => 2, :null => false
+    t.integer  "user_id",                 :null => false
+    t.integer  "post_id",                 :null => false
+    t.integer  "comment_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
 end

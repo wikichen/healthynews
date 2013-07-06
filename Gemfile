@@ -1,9 +1,12 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 gem 'rails', '3.2.13'
 
 gem 'devise', '~> 2.2.4'
 gem 'pg', '~> 0.15.1'
+gem 'faker', '~> 1.1.2'
+gem 'will_paginate', '~> 3.0.4'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.0'
@@ -27,6 +30,7 @@ gem 'haml', '~> 4.0.3'
 
 group :test do
   gem 'capybara', '~> 2.1.0'
+  gem 'factory_girl_rails', '~> 4.2.1'
 end
 
 group :production do
