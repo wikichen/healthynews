@@ -1,45 +1,29 @@
-<div class="post-container">
-  <div class="post-title"><%= link_to @post.title, @post.url %></div>
-
-  <div class="post-metadata">
-    <p>
-      <%= @post.votes.where(:vote => true).count - @post.votes.where(:vote => false).count%> points by <%= @post.user.username %> <%= time_ago_in_words(@post.created_at) %> ago | <%= link_to 'discuss', @post %>
-    </p>
-  </div>
-</div>
+<%= render @post %>
 
 <p><%= link_to 'Edit', edit_post_path(@post) %> |
   <%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' } %></p>
 
-<%= form_for(@comment) do |f| %>
-  <% if @comment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+<!-- comment form -->
+<%= render :partial => "comments/commentbox",
+  :locals => { :post => @post, :comment => @comment } %>
 
-      <ul>
-      <% @comment.errors.full_bodys.each do |msg| %>
-        <li><%= msg %></li>
+<% if @comments %>
+  <% indent_level = -1 %>
+  <% @comments.each_with_index do |comment, x| %>
+    <% if comment.indent_level > indent_level %>
+      <ul class="comments comments<%= comment.indent_level %>">
+    <% elsif comment.indent_level < indent_level %>
+      <% (indent_level - comment.indent_level).times do %>
+        </ul>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
+    <% end %>
 
-  <div class="field">
-    <%= f.text_area :body, :placeholder => 'Add a comment' %>
-  </div>
-  <div class="field">
-    <%= f.hidden_field :post_id, :value => @post.id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <%= render :partial => "comments/comment", :locals => { :post => @post,
+                                               :comment => comment } %>
+
+    <% indent_level = comment.indent_level %>
+  <% end %>
+  <% indent_level.times do %>
+    </ul>
+  <% end %>
 <% end %>
-
-<h2>Comments</h2>
-<div>
-  <% @post.comments.each do |comment| %>
-    <p><%= comment.user.username %> <%= time_ago_in_words(comment.created_at) %> ago <%= link_to 'link', comment %></p>
-    <p><%= comment.body %></p>
-  <% end %>
-
-</div>

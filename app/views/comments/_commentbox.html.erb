@@ -1,0 +1,34 @@
+<div class="comment_form_container">
+<%= form_tag((comment.new_record? ? "/comments/post_to/#{post.short_id}" :
+                                    "/comments/#{comment.short_id}/update"),
+                                    { :id => "comment_form" }) do |f| %>
+  <% if comment && comment.errors.any? %>
+    <%= errors_for comment %>
+  <% end %>
+
+  <% if comment.parent_comment_short_id.present? %>
+    <%= hidden_field_tag "parent_comment_short_id",
+                        comment.parent_comment_short_id %>
+  <% end %>
+
+  <div>
+    <%= text_area_tag "comment", comment.comment, :rows => 5,
+                                 :style => "width: 100%;",
+                                 :autocomplete => "off" %>
+
+    <p></p>
+
+    <%= button_tag "#{comment.new_record? ? "Post" : "Update"} comment",
+                              :class => "comment-post", :type => "button" %>
+    &nbsp;
+
+    <div style="clear: both;"></div>
+<% end %>
+<% if defined?(show_comment) && show_comment.valid? %>
+  <ul class="comments comments1">
+    <%= render :partial => "comments/comment",
+               :locals => { :comment => show_comment, :post => post } %>
+  </ul>
+<% end %>
+
+</div>

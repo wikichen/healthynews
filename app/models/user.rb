@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   has_many :posts
   has_many :comments
-  has_many :votes
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

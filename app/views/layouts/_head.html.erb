@@ -11,4 +11,10 @@
   <!-- Typekit -->
   <script type="text/javascript" src="//use.typekit.net/xum5ztr.js"></script>
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+  <% if current_user %>
+    <script>
+      HealthyNews.curUser = '<%= current_user.id %>';
+    </script>
+  <% end %>
 </head>

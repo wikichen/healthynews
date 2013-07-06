@@ -5,6 +5,8 @@ class Post < ActiveRecord::Base
 
   attr_accessible :title, :url, :user_id
 
+  attr_accessor :vote
+
   validates :user_id, :presence => true
   validates :title, :presence => true
   validates :url, :presence => true,
@@ -24,6 +26,44 @@ class Post < ActiveRecord::Base
       pu = URI.parse(self.url)
       pu.host.gsub(/^www\d*\./, "")
     end
+  end
+
+  def title=(t)
+    # change unicode whitespace characters into real spaces
+    self[:title] = t.strip
+  end
+
+  def title_as_url
+    u = self.title.downcase.gsub(/[^a-z0-9_-]/, "_")
+    while u.match(/__/)
+      u.gsub!("__", "_")
+    end
+    u.gsub(/^_+/, "").gsub(/_+$/, "")
+  end
+
+  def url=(u)
+    # strip out stupid google analytics parameters
+    if u && (m = u.match(/\A([^\?]+)\?(.+)\z/))
+      params = m[2].split("&")
+      params.reject!{|p|
+        p.match(/^utm_(source|medium|campaign|term|content)=/) }
+
+      u = m[1] << (params.any?? "?" << params.join("&") : "")
+    end
+
+    self[:url] = u
+  end
+
+  def url_or_comments_url
+    self.url.blank? ? self.comments_url : self.url
+  end
+
+  def comments_url
+    "#{short_id_url}/#{self.title_as_url}"
+  end
+
+  def short_id_url
+    Rails.application.routes.url_helpers.root_url + "p/#{self.short_id}"
   end
 
   def score
