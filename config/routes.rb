@@ -15,10 +15,12 @@ Healthynews::Application.routes.draw do
 
   # PAGES
   root to: 'pages#index'
-  get '/about' => 'pages#about'
-  get '/page/:page' => 'pages#index'
-  get '/newest(.format)' => 'home#newest'
-  get '/newest/page/:page' => 'home#newest'
+  get '/about',             to: 'pages#about'
+  get '/page/:page',        to: 'pages#index'
+  get '/newest',            to: 'pages#newest'
+  #get '/newest(.format)',   to: 'pages#newest'
+  #get '/newest/page/:page', to: 'pages#newest'
+
 
   # POSTS
   resources :posts do

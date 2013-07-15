@@ -18,6 +18,14 @@ class PagesController < ApplicationController
   def about
   end
 
+  def newest
+    @posts = find_posts_for_newest(true)
+    respond_to do |format|
+      format.html { render :action => "newest" }
+      format.json { render json: @posts }
+    end
+  end
+
 private
   def find_posts_for_newest(newest = false)
     @page = 1

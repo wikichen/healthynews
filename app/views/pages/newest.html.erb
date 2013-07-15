@@ -1,0 +1,17 @@
+<ol class="stories list">
+  <%= render partial: "posts/post", collection: @posts, :as => :post %>
+</ol>
+
+<div class="show-more-link">
+  <% if @page && @page > 1 %>
+    <a href="<%= @newest ? "/newest" : "" %>
+             <%= @page == 2 ? "/" : "/page/#{@page - 1}" %>">prev</a>
+  <% end %>
+
+  <% if @show_more %>
+    <% if @page && @page > 1 %>
+      |
+    <% end %>
+    <a href="<%= @newest ? "/newest" : "" %>/page/<%= @page + 1 %>">next</a>
+  <% end %>
+</div>
