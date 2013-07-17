@@ -100,17 +100,23 @@ a {
     margin-top: 1em;
   }
 
-  .post-title {
+  .post-details {
     font-size: 20px;
     font-weight: 500;
     padding-left: 2em;
 
-    a {
+    .link {
       color: $base-color;
 
-      &:visited {
+      a:visited {
         color: $visited-link-color;
       }
+    }
+
+    .domain {
+      font-size: 14px;
+      color: $light-text-color;
+      font-weight: normal;
     }
   }
 

@@ -15,8 +15,11 @@
     <% end %>
   </div>
 
-  <div class="post-title">
-    <%= link_to post.title, post.url %>
+  <div class="post-details">
+    <span class="link">
+      <%= link_to post.title, post.url %>
+    </span>
+    <span class="domain">(<%= post.domain %>)</span>
   </div>
 
   <div class="post-metadata">
