@@ -1,11 +1,12 @@
 <%= render @post %>
 
-<p><%= link_to 'Edit', edit_post_path(@post) %> |
-  <%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' } %></p>
-
 <!-- comment form -->
-<%= render :partial => "comments/commentbox",
-  :locals => { :post => @post, :comment => @comment } %>
+<% if current_user %>
+  <%= render :partial => "comments/commentbox",
+    :locals => { :post => @post, :comment => @comment } %>
+<% end %>
+
+<br>
 
 <% if @comments %>
   <% indent_level = -1 %>
